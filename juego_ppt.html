@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <style>
+  body{
+ background-color:black;
+ font-family: Calibri;
+ color:white;
+
+}
+
+h2{
+ background-color:#009fff;
+ display: inline-block;
+ color:black;
+ padding:10px;
+ border-radius: 5px;
+ font-family: Arial;
+}
+
+button{
+ background-color:white;
+ color:black;
+ padding:20px;
+ cursor:pointer;
+ margin-right: 5px;
+ border-radius:5px;
+ width:25%;
+ border:none;
+}
+
+button:hover{
+ background-color: gray;
+}
+ </style>
+ <meta charset="UTF-8">
+ <title>JUEGO</title>
+</head>
+<body>
+<center>
+ <h2>PIEDRA, PAPEL O TIJERAS</h2>
+ <p>
+ <button id="btnPiedra" onclick="user('PIEDRA')">PIEDRA</button>
+ <button id="btnPapel" onclick="user('PAPEL')">PAPEL</button>
+ <button id="btnTijeras" onclick="user('TIJERAS')">TIJERAS</button>
+ 
+ <h3 id="resultado"></h3>
+ <p id="vs"></p>
+
+ <table border="1" cellpadding="7">
+  <tr>
+<th>Resultados</th>
+<th>Cantidad</th>
+  </tr>
+  <tr>
+<td>Ganadas</td>
+<td id="ganadas">0</td>
+  </tr>
+  <tr>
+<td>Perdidas</td>
+<td id="perdidas">0</td>
+  </tr>
+  <tr>
+<td>Empatadas</td>
+<td id="empatadas">0</td>
+  </tr>
+ </table>
+ <p>
+ <button id="resetBtn" onclick="resetGame()" style="display: none;">Volver a jugar</button>
+
+ <script>
+  let ganadas = 0;
+  let perdidas = 0;
+  let empatadas = 0;
+
+  function user(btnuser) {
+function randpc() {
+ var random = Math.floor(Math.random() * 3) + 1;
+ if (random === 1) {
+  return "PIEDRA";
+ } else if (random === 2) {
+  return "PAPEL";
+ } else {
+  return "TIJERAS";
+ }
+}
+
+function comparar(user_btn, randaut) {
+ if ((randaut === "PIEDRA" && user_btn === "TIJERAS") || 
+  (randaut === "PAPEL" && user_btn === "PIEDRA") || 
+  (randaut === "TIJERAS" && user_btn === "PAPEL")) {
+  return "PERDISTE";
+ } else if (randaut === user_btn) {
+  return "EMPATE";
+ } else {
+  return "GANASTE"; 
+ }
+}
+
+var randaut = randpc();
+var resultado = comparar(btnuser, randaut);
+
+if (resultado === "GANASTE") {
+ ganadas++;
+} else if (resultado === "PERDISTE") {
+ perdidas++;
+} else {
+ empatadas++;
+}
+document.getElementById('ganadas').innerText = ganadas;
+document.getElementById('perdidas').innerText = perdidas;
+document.getElementById('empatadas').innerText = empatadas;
+if (resultado === "GANASTE") {
+ resultado = '<font color="#07ff00">' + resultado + '</font>'; 
+} else if (resultado === "PERDISTE") {
+ resultado = '<font color="#ff0000">' + resultado + '</font>'; 
+} else {
+ resultado = '<font color="white">' + resultado + '</font>'; 
+}
+
+document.getElementById('resultado').innerHTML = resultado;
+document.getElementById('vs').innerHTML = btnuser + ' <==> ' + randaut;
+
+
+if (ganadas >= 5 || perdidas >= 5) {
+ document.getElementById('resetBtn').style.display = 'block';
+ document.getElementById('btnPiedra').disabled = true;
+ document.getElementById('btnPapel').disabled = true;
+ document.getElementById('btnTijeras').disabled = true;
+}
+  }
+
+  function resetGame() {
+ganadas = 0;
+perdidas = 0;
+empatadas = 0;
+document.getElementById('ganadas').innerText = ganadas;
+document.getElementById('perdidas').innerText = perdidas;
+document.getElementById('empatadas').innerText = empatadas;
+document.getElementById('resetBtn').style.display = 'none';
+document.getElementById('btnPiedra').disabled = false;
+document.getElementById('btnPapel').disabled = false;
+document.getElementById('btnTijeras').disabled = false;
+document.getElementById('resultado').innerHTML = '';
+document.getElementById('vs').innerHTML = '';
+  }
+ </script>
+</center>
+</body>
+</html>
